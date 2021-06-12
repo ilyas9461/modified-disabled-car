@@ -1,0 +1,92 @@
+
+ROM used: 5036 (11%)
+          5036 (11%) including unused fragments
+
+          3 Average locations per line
+          15 Average locations per statement
+
+RAM used: 408 (5%) at main() level
+          446 (5%) worst case
+
+Stack used: 5 worst case (out of 31 total available)
+
+Lines Stmts  %   Files
+----- ----- ---  -----
+  135    60  18  engelli_araba.c
+   34     0   0  engelli_araba.h
+  475     0   0  ..\..\..\..\Program Files\PICC\devices\24FJ64GA002.h
+  423   125  38  ..\..\..\..\Program Files\PICC\drivers\string.h
+   32     0   0  ..\..\..\..\Program Files\PICC\drivers\stddef.h
+   28     0   0  ..\..\..\..\Program Files\PICC\drivers\ctype.h
+  121    29   9  ..\..\..\..\Program Files\PICC\drivers\INPUT.C
+   63    25   8  hc_sr_04.c
+  135    75  23  komutlar.c
+   44    18   5  kesmeler.c
+----- -----
+ 1490   332 Total
+
+Page ROM  %  RAM   Vol Diff  Functions:
+---- --- --- ---   --- ----  ----------
+0     16   0   2             @delay_ms1
+0     24   0   0    76  2.3  CCNI_Interrupt
+0    104   1   0   210  4.7  cni_uzaklik_olc
+0    100   1   0             @SI64TOF64
+0    264   3   8             @DIVFF64
+0    272   3   0             @MULFF64
+0     68   1   0             @F64TO48
+0     58   1   9    60  2.3  Vdc_duty
+0    202   2   8             @DIVFF
+0    426   4   8             @ADDFF
+0    196   2   8             @MULFF
+0     60   1   4             @FTOSD
+0     28   0   9    43  1.5  sol_sag_1
+0     28   0   9    43  1.5  ileri_geri_1
+0     28   0   9    43  1.5  ileri_geri_2
+0     28   0   9    43  1.5  merkez_gerilim
+0     28   0   9    43  1.5  sol_sag_2
+0     52   1   0    86  1.3  araba_dur
+0     46   0   0    67  1.2  araba_ileri
+0     42   0   0    67  1.2  araba_geri
+0     42   0   0    67  1.2  araba_sola
+0     46   0   0    67  1.2  araba_saga
+0     50   0   0    67  1.2  araba_sag_ileri
+0     46   0   0    67  1.2  araba_sag_geri
+0     46   0   0    67  1.2  araba_sol_ileri
+0     42   0   0    67  1.2  araba_sol_geri
+0     80   1   7   352  5.5  komut_al
+0     42   0   0    47  1.5  RDA_isr
+0    742   7   0  2222  8.2  MAIN
+0     30   0   0             @const264
+0     34   0   0             @const265
+0    100   1   0             @I64TOF64
+0    104   1   8             @FLT
+0     48   0   0             @const271
+0    250   2   0             @PRINTFD16_9600_5714_5715
+0     70   1   0             @F48TO64
+0     86   1   0             @F64TOI64
+0    148   1   0             @DIV6464B
+0    386   4   0             @PRINTF_F64_9600_5714_5715
+0     34   0   0             @const285
+0     28   0   0             @const286
+ Inline        0             @cinit1
+
+Program metrics:
+    Functions               20
+    Statements              332
+    Comments                361
+    Volume (V)              6119
+    Difficulty (D)          42.3
+    Effort to implement (E) 259028
+    Time to implement (T)   4 hours, 0 minutes
+    Est Delivered Bugs (B)  1
+    Cyclomatic Complexity   17
+    Maintainability (MI)    110
+
+ Segment     Used  Free
+-----------  ----  ----
+00000-00002     4  0  
+00004-001FE   508  0  
+00200-0ABFA  4524  38992  
+
+
+

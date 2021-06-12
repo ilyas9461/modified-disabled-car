@@ -1,0 +1,150 @@
+W0      @SCRATCH
+W0L     _RETURN_
+W0 -W3  @MULFF64.P1
+W0 -W1  @READ_ROM_MEMORY.P2
+W0 -W3  @F64TO48.P3
+W0      @PRINTFD16_9600_5714_5715.P4
+W0 -W1  @FTOSD.P5
+W0 -W1  @DIV3232B.P6
+W0 -W2  @F48TO64.P7
+W0 -W1  @FLT.P8
+W0 -W3  @PRINTF_F64_9600_5714_5715.P9
+W0 -W1  @ADDFF.P10
+W0 -W3  @SI64TOF64.P11
+W0 -W3  @F64TOI64.P12
+W0 -W3  @I64TOF64.P13
+W0 -W3  @DIV6464B.P14
+W0 -W1  @DIVFF.P15
+W0      @delay_ms1.P16
+W0      @delay_us1.P17
+W0 -W1  @MULFF.P18
+W0 -W3  @DIVFF64.P19
+W1      @SCRATCH
+W1      @READ_PACKED_MEMORY.P1
+W1      @WRITE_PACKED_MEMORY.P2
+W2 -W3  @DIV3232B.P1
+W2 -W3  @FLT.P2
+W2 -W3  @ADDFF.P3
+W2      @WRITE_PACKED_MEMORY.P4
+W2 -W3  @DIVFF.P5
+W2      @READ_PACKED_MEMORY.P6
+W2 -W3  @MULFF.P7
+W2      @READ_ROM_MEMORY.P8
+W3      @READ_ROM_MEMORY.P1
+W3      @READ_PACKED_MEMORY.P2
+W3      @WRITE_PACKED_MEMORY.P3
+W4 -W7  @DIVFF64.P1
+W4      @PRINTFD16_9600_5714_5715.P2
+W4 -W7  @MULFF64.P3
+W4 -W7  @DIV6464B.P4
+W9 -W10 @PRINTF_F64_9600_5714_5715.P1
+800-801 strtok.save
+802-803 komut
+804-807 duty
+808-80B value
+80C-80F v
+810-813 vadc
+814-815 sure
+816-817 sure_up
+818-819 sure_down
+81A-81D uzaklik
+81E-917 seri_buf
+918-919 komut_al.komut_kodu
+918-91B sol_sag_2.vdc
+918-91B sol_sag_1.vdc
+918-91B merkez_gerilim.vdc
+918-91B ileri_geri_1.vdc
+918-91B ileri_geri_2.vdc
+920-923 Vdc_duty.vdc
+2780-27FF Stack
+
+ROM Allocation:
+02F0  @delay_ms1
+02AE  CCNI_Interrupt
+0A92  cni_uzaklik_olc
+0926  @SI64TOF64
+098A  @DIVFF64
+07D2  @MULFF64
+08E2  @F64TO48
+0674  Vdc_duty
+0300  @DIVFF
+03CA  @ADDFF
+0574  @MULFF
+0638  @FTOSD
+06CA  sol_sag_1
+0702  ileri_geri_1
+071E  ileri_geri_2
+06AE  merkez_gerilim
+06E6  sol_sag_2
+073A  araba_dur
+0F5E  araba_ileri
+0F8C  araba_geri
+0FE4  araba_sola
+0FB6  araba_saga
+100E  araba_sag_ileri
+1040  araba_sag_geri
+106E  araba_sol_ileri
+109C  araba_sol_geri
+0F0E  komut_al
+02C6  RDA_isr
+10C6  MAIN
+0200  @const264
+021E  @const265
+076E  @I64TOF64
+0AFA  @FLT
+0240  @const271
+0B62  @PRINTFD16_9600_5714_5715
+0C5C  @F48TO64
+0CA2  @F64TOI64
+0CF8  @DIV6464B
+0D8C  @PRINTF_F64_9600_5714_5715
+0270  @const285
+0292  @const286
+10C6  @cinit1
+112C  @cinit2
+
+
+User Memory space: 
+
+User Memory space: 
+
+User Memory space: 
+
+Project Directory:
+    C:\Documents and Settings\ilyas\Desktop\engelli araba\
+
+Project Files:
+    engelli_araba.c                                         [15-Eki-14 15:38  CRC=7C3B1B85]
+    engelli_araba.h                                         [03-Haz-14 11:44  CRC=C4129273]
+    ..\..\..\..\Program Files\PICC\devices\24FJ64GA002.h    [28-Þub-12 14:44  CRC=188743BF]
+    ..\..\..\..\Program Files\PICC\drivers\string.h         [14-Tem-11 11:13  CRC=23EDEC8F]
+    ..\..\..\..\Program Files\PICC\drivers\stddef.h         [16-Tem-10 10:27  CRC=897CEC6C]
+    ..\..\..\..\Program Files\PICC\drivers\ctype.h          [03-Oca-08 14:55  CRC=2D1F019F]
+    ..\..\..\..\Program Files\PICC\drivers\INPUT.C          [18-Eyl-07 10:16  CRC=DE0FD50A]
+    hc_sr_04.c                                              [03-Haz-14 13:34  CRC=556D3FA8]
+    komutlar.c                                              [30-May-14 15:13  CRC=FD61C30C]
+    kesmeler.c                                              [03-Haz-14 12:26  CRC=18EDF79E]
+
+Source signature=9619934B
+
+Units:
+    engelli_araba (main)
+
+Compiler Settings:
+    Processor:      PIC24FJ64GA002
+    Pointer Size:   16
+    ADC Range:      0-1023
+    Opt Level:      9
+    Short,Int,Long: SIGNED: 8,16,32
+    Float,Double:   32,64
+
+Output Files:
+    Errors:      engelli_araba.err
+    Ext Symbols: engelli_araba.esym
+    INHX8:       engelli_araba.hex
+    Symbols:     engelli_araba.sym
+    List:        engelli_araba.lst
+    Debug/COFF:  engelli_araba.cof
+    Project:     engelli_araba.PJT
+    Call Tree:   engelli_araba.tre
+    Statistics:  engelli_araba.STA

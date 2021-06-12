@@ -1,0 +1,62 @@
+///
+
+#define trig1 PIN_A1
+#define echo1 PIN_A2
+#define trig2 PIN_A3
+#define echo2 PIN_A4
+
+int16 sure=0,sure_up=0,sure_down=0;
+float uzaklik=0;
+
+#int_CNI FAST
+void CCNI_Interrupt(){
+   //clear_interrupt(INTR_CN_PIN | PIN_A2);
+   if(input(echo1)){
+   
+      sure_up=get_timer1();
+      
+    }else{
+    
+      sure_down=get_timer1();
+      
+   }
+
+}
+float cni_uzaklik_olc(){
+   //2N700 mosfet üzerinden baðlandýðýnda
+   /*
+   output_low(trig1);// ters baðlý high olur çýkýþ
+   delay_us(20);
+   output_high(trig1);// low çýkýþ
+   set_timer1(0x00);*/
+   
+   output_float(trig1);
+   delay_us(20);
+   output_low(trig1);
+   set_timer1(0x00);
+   
+   if(sure_up>0&&sure_down>0){
+      sure=sure_down-sure_up;
+      return 2*sure/58.0);
+  
+   }
+}
+void uzaklik_olc(){
+   output_a(0x00);
+   
+   output_low(trig1);// ters baðlý high olur çýkýþ
+   delay_us(10);
+  // delay_ms(1000);
+   output_high(trig1);
+   set_timer1(0x00);
+   
+   //fprintf(pc,"SR04.......\r");
+   while(!input(echo1));
+   set_timer1(0x00);
+   //fprintf(pc,"high.......\r");
+   while(input(echo1));
+   //fprintf(pc,"low.......\r");
+   sure=get_timer1();
+   uzaklik=sure/58.0;// (sure/58)/2; timer1 2uS de bir sayar 1:8 prescalar deðeri ile 
+                    // Fcy=8MHz/2=4MHz=0.25us, 1:8= 0.25*8 = 2us   
+}

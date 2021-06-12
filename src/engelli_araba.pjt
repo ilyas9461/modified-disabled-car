@@ -1,0 +1,33 @@
+[PROJECT]
+Target=C:\Documents and Settings\ilyas\Belgelerim\Elo-Documents\MCU_xxx\CCS_Pic_C\24FJ64GA002\engelli araba\engelli_araba.hex
+Development_Mode=
+Processor_Text=PIC24FJ64GA002
+ToolSuite=CCS
+Processor=0x006F
+[C:\Documents and Settings\ilyas\Belgelerim\Elo-Documents\MCU_xxx\CCS_Pic_C\24FJ64GA002\engelli araba\engelli_araba]
+Type=4
+Path=
+FileList=
+BuildTool=
+OptionString=
+AdditionalOptionString=
+[mru-list]
+1=C:\Documents and Settings\ilyas\Belgelerim\Elo-Documents\MCU_xxx\CCS_Pic_C\24FJ64GA002\engelli araba\engelli_araba.c
+[Windows]
+0=0000 %S 0 0 796 451 3 0
+[Opened Files]
+1=engelli_araba.c
+2=engelli_araba.h
+3=..\..\..\..\Program Files\PICC\drivers\INPUT.C
+4=hc_sr_04.c
+5=komutlar.c
+6=kesmeler.c
+7=..\..\..\..\Program Files\PICC\examples\ex_pwm.c
+8=..\..\..\..\Program Files\PICC\devices\24FJ64GA002.h
+9=
+[Target Data]
+OptionString=-p +FD
+FileList=C:\Documents and Settings\ilyas\Desktop\engelli araba\engelli_araba.c
+[Units]
+Count=1
+1=engelli_araba (main)

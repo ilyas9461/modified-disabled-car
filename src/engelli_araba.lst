@@ -1,0 +1,1804 @@
+CCS PCD C Compiler, Version 4.130, 5967               15-Eki-14 15:38
+
+               Filename: C:\Documents and Settings\ilyas\Desktop\engelli araba\engelli_araba.lst
+
+               ROM used: 5036 bytes (11%)
+                         Largest free fragment is 38992
+               RAM used: 408 (5%) at main() level
+                         446 (5%) worst case
+               Stack:    5 worst case (4 in main + 1 for interrupts)
+
+*
+0000:  GOTO    10C6
+*
+002A:  DATA    C6,02,00
+*
+003A:  DATA    AE,02,00
+.................... #include <engelli_araba.h> 
+.................... #include <24FJ64GA002.h> 
+.................... //////// Standard Header file for the PIC24FJ64GA002 device //////////////// 
+.................... #device PIC24FJ64GA002 
+.................... #list 
+....................  
+.................... #DEVICE ADC=10 
+....................  
+.................... #FUSES WRT                      //Program Memory Write Protected 
+.................... #FUSES NOJTAG                   //JTAG disabled 
+.................... #FUSES OSCIO                    //OSC2 is general purpose output 
+.................... //#FUSES CKSFSM                 //Clock Switching is enabled, fail Safe clock monitor is enabled 
+.................... #FUSES PR                       //Primary Oscillator 
+.................... //#FUSES HS 
+....................  
+.................... #fuses NOWDT,NOPROTECT,NOPR,PR,FRC 
+.................... //#fuses NOWDT,NOPROTECT,PR 
+....................  
+.................... #use delay(internal=8Mhz , clock=8Mhz) 
+*
+02F0:  CP0     W0
+02F2:  BTSC.B  42.1
+02F4:  BRA     2FE
+02F6:  REPEAT  #F9B
+02F8:  NOP     
+02FA:  DEC     W0,W0
+02FC:  BRA     NZ,2F6
+02FE:  RETURN  
+.................... //#use delay(crystal=20Mhz,clock=20000000) 
+....................  
+.................... //#pin_select IC1  =  PIN_B1 
+.................... #pin_select U1TX = PIN_B2 //PC ile  
+.................... #pin_select U1RX = PIN_B3 
+....................  
+.................... #pin_select U2TX = PIN_B10//BL ile  
+.................... #pin_select U2RX = PIN_B11 
+....................  
+.................... #pin_select OC1=PIN_B5 
+.................... #pin_select OC2=PIN_B6 
+.................... #pin_select OC3=PIN_B7 
+.................... #pin_select OC4=PIN_B8 
+.................... #pin_select OC5=PIN_B9 
+....................  
+.................... //#use rs232(baud=9600,parity=N,bits=8,UART1,STREAM=pc,ERRORS,DISABLE_INTS,TIMEOUT=1000) 
+.................... //#use rs232(baud=57600,parity=N,bits=8,UART1,STREAM=pc,ERRORS,DISABLE_INTS,TIMEOUT=1000) 
+.................... #use rs232(baud=9600,parity=N,bits=8,UART1,STREAM=pc) 
+.................... //#use rs232(baud=9600,parity=N,bits=8,UART2,STREAM=bluetooth) 
+....................  
+.................... #include <string.h> 
+.................... //////////////////////////////////////////////////////////////////////////// 
+.................... ////        (C) Copyright 1996,2008 Custom Computer Services            //// 
+.................... //// This source code may only be used by licensed users of the CCS C   //// 
+.................... //// compiler.  This source code may only be distributed to other       //// 
+.................... //// licensed users of the CCS C compiler.  No other use, reproduction  //// 
+.................... //// or distribution is permitted without written permission.           //// 
+.................... //// Derivative programs created using this software in object code     //// 
+.................... //// form are not restricted in any way.                                //// 
+.................... //////////////////////////////////////////////////////////////////////////// 
+....................  
+.................... #ifndef _STRING 
+.................... #define _STRING 
+.................... #include <stddef.h> 
+.................... /////////////////////////////////////////////////////////////////////////// 
+.................... ////        (C) Copyright 1996,2003 Custom Computer Services           //// 
+.................... //// This source code may only be used by licensed users of the CCS C  //// 
+.................... //// compiler.  This source code may only be distributed to other      //// 
+.................... //// licensed users of the CCS C compiler.  No other use, reproduction //// 
+.................... //// or distribution is permitted without written permission.          //// 
+.................... //// Derivative programs created using this software in object code    //// 
+.................... //// form are not restricted in any way.                               //// 
+.................... /////////////////////////////////////////////////////////////////////////// 
+....................  
+.................... #ifndef _STDDEF 
+....................  
+.................... #define _STDDEF 
+....................  
+.................... #if sizeof(unsigned int8 *)==1 
+.................... #define ptrdiff_t unsigned int8 
+.................... #else 
+.................... #define ptrdiff_t unsigned int16 
+.................... #endif 
+....................  
+.................... #if defined(__PCB__) 
+.................... #define size_t unsigned int8 
+.................... #else 
+.................... #define size_t unsigned int16 
+.................... #endif 
+.................... #define wchar_t char 
+.................... #define NULL 0 
+....................  
+.................... #define offsetof(s,f) (offsetofbit(s,f)/8) 
+....................  
+.................... #endif 
+....................  
+.................... #include <ctype.h> 
+.................... //////////////////////////////////////////////////////////////////////////// 
+.................... ////        (C) Copyright 1996,2003 Custom Computer Services            //// 
+.................... //// This source code may only be used by licensed users of the CCS C   //// 
+.................... //// compiler.  This source code may only be distributed to other       //// 
+.................... //// licensed users of the CCS C compiler.  No other use, reproduction  //// 
+.................... //// or distribution is permitted without written permission.           //// 
+.................... //// Derivative programs created using this software in object code     //// 
+.................... //// form are not restricted in any way.                                //// 
+.................... //////////////////////////////////////////////////////////////////////////// 
+....................  
+.................... #ifndef _CTYPE 
+.................... #define _CTYPE 
+....................  
+.................... #define islower(x)  isamong(x,"abcdefghijklmnopqrstuvwxyz") 
+.................... #define isupper(x)  isamong(x,"ABCDEFGHIJKLMNOPQRSTUVWXYZ") 
+.................... #define isalnum(x)  isamong(x,"0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz") 
+.................... #define isalpha(x)  isamong(x,"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz") 
+.................... #define isdigit(x)  isamong(x,"0123456789") 
+.................... #define isspace(x)  ((x)==' ') 
+.................... #define isxdigit(x) isamong(x,"0123456789ABCDEFabcdef") 
+.................... #define iscntrl(x)  ((x)<' ') 
+.................... #define isprint(x)  ((x)>=' ') 
+.................... #define isgraph(x)  ((x)>' ') 
+.................... #define ispunct(x)  (((x)>' ')&&!isalnum(x)) 
+....................  
+.................... #endif 
+....................  
+....................  
+....................  
+....................  
+....................  
+.................... ////////////////////////////////////////////// 
+.................... //// Uncomment the following define to    //// 
+.................... //// allow some functions to use a        //// 
+.................... //// quicker algorithm, but use more ROM  //// 
+.................... ////                                      //// 
+.................... //// #define FASTER_BUT_MORE_ROM          //// 
+.................... ////////////////////////////////////////////// 
+....................  
+....................  
+....................  
+.................... /*Copying functions*/ 
+.................... /* standard template: 
+....................    void *memmove(void *s1, void *s2, size_t n). 
+....................    Copies max of n characters safely (not following ending '\0') 
+....................    from s2 in s1; if s2 has less than n characters, appends 0 */ 
+....................  
+.................... char *memmove(void *s1,char *s2,size_t n) 
+.................... { 
+....................    char *sc1; 
+....................    char *sc2; 
+....................    sc1=s1; 
+....................    sc2=s2; 
+....................    if(sc2<sc1 && sc1 <sc2 +n) 
+....................       for(sc1+=n,sc2+=n;0<n;--n) 
+....................          *--sc1=*--sc2; 
+....................    else 
+....................       for(;0<n;--n) 
+....................          *sc1++=*sc2++; 
+....................   return s1; 
+....................   } 
+....................  
+.................... /* Standard template: char *strcpy(char *s1, const char *s2) 
+....................    copies the string s2 including the null character to s1. 
+....................    This is a compiler built in to handle the different address 
+....................    spaces */ 
+....................  
+.................... #define strcopy strcpy 
+....................  
+.................... /* standard template: 
+....................    char *strncpy(char *s1, const char *s2, size_t n). 
+....................    Copies max of n characters (not following ending '\0') 
+....................    from s2 in s1; if s2 has less than n characters, appends 0 */ 
+....................  
+.................... char *strncpy(char *s1, char *s2, size_t n) 
+.................... { 
+....................   char *s; 
+....................  
+....................   for (s = s1; n > 0 && *s2 != '\0'; n--) 
+....................      *s++ = *s2++; 
+....................   for (; n > 0; n--) 
+....................      *s++ = '\0'; 
+....................  
+....................   return(s1); 
+.................... } 
+.................... /***********************************************************/ 
+....................  
+.................... /*concatenation functions*/ 
+.................... /* standard template: char *strcat(char *s1, const char *s2) 
+.................... appends s2 to s1*/ 
+....................  
+.................... char *strcat(char *s1, char *s2) 
+.................... { 
+....................    char *s; 
+....................  
+....................    for (s = s1; *s != '\0'; ++s); 
+....................    while(*s2 != '\0') 
+....................    { 
+....................       *s = *s2; 
+....................       ++s; 
+....................       ++s2; 
+....................    } 
+....................  
+....................    *s = '\0'; 
+....................    return(s1); 
+.................... } 
+.................... /* standard template: char *strncat(char *s1, char *s2,size_t n) 
+.................... appends not more than n characters from s2 to s1*/ 
+....................  
+.................... char *strncat(char *s1, char *s2, size_t n) 
+.................... { 
+....................    char *s; 
+....................  
+....................    for (s = s1; *s != '\0'; ++s); 
+....................    while(*s2 != '\0' && 0<n) 
+....................    { 
+....................       *s = *s2; 
+....................       ++s; 
+....................       ++s2; 
+....................       --n; 
+....................    } 
+....................  
+....................    *s = '\0'; 
+....................    return(s1); 
+.................... } 
+....................  
+.................... /***********************************************************/ 
+....................  
+....................  
+.................... /*comparison functions*/ 
+.................... /* standard template: signed int memcmp(void *s1, void *s2). 
+....................    Compares s1 & s2; returns -1 if s1<s2, 0 if s1=s2, 1 if s1>s2 */ 
+....................  
+.................... signed int8 memcmp(void * s1,char *s2,size_t n) 
+.................... { 
+.................... char *su1, *su2; 
+.................... for(su1=s1, su2=s2; 0<n; ++su1, ++su2, --n) 
+.................... { 
+....................    if(*su1!=*su2) 
+....................       return ((*su1<*su2)?-1:+1); 
+.................... } 
+.................... return 0; 
+.................... } 
+....................  
+.................... /* standard template: int strcmp(const char *s1, const char *s2). 
+....................    Compares s1 & s2; returns -1 if s1<s2, 0 if s1=s2, 1 if s1>s2 */ 
+....................  
+.................... signed int8 strcmp(char *s1, char *s2) 
+.................... { 
+....................    for (; *s1 == *s2; s1++, s2++) 
+....................       if (*s1 == '\0') 
+....................          return(0); 
+....................    return((*s1 < *s2) ? -1: 1); 
+.................... } 
+.................... /* standard template: int strcoll(const char *s1, const char *s2). 
+....................    Compares s1 & s2; returns -1 if s1<s2, 0 if s1=s2, 1 if s1>s2 */ 
+....................  
+.................... signed int8 strcoll(char *s1, char *s2) 
+.................... { 
+....................    for (; *s1 == *s2; s1++, s2++) 
+....................       if (*s1 == '\0') 
+....................          return(0); 
+....................    return((*s1 < *s2) ? -1: 1); 
+.................... } 
+....................  
+.................... /* standard template: 
+....................    int strncmp(const char *s1, const char *s2, size_t n). 
+....................    Compares max of n characters (not following 0) from s1 to s2; 
+....................    returns same as strcmp */ 
+....................  
+.................... signed int8 strncmp(char *s1, char *s2, size_t n) 
+.................... { 
+....................    for (; n > 0; s1++, s2++, n--) 
+....................       if (*s1 != *s2) 
+....................          return((*s1 <*s2) ? -1: 1); 
+....................       else if (*s1 == '\0') 
+....................          return(0); 
+....................    return(0); 
+.................... } 
+.................... /* standard template: 
+....................    int strxfrm(const char *s1, const char *s2, size_t n). 
+....................    transforms maximum of n characters from s2 and places them into s1*/ 
+.................... size_t strxfrm(char *s1, char *s2, size_t n) 
+.................... { 
+....................   char *s; 
+....................   unsigned int8 n1; 
+....................   n1=n; 
+....................   for (s = s1; n > 0 && *s2 != '\0'; n--) 
+....................      *s++ = *s2++; 
+....................   for (; n > 0; n--) 
+....................      *s++ = '\0'; 
+....................  
+....................   return(n1); 
+.................... } 
+....................  
+....................  
+....................  
+....................  
+....................  
+.................... /***********************************************************/ 
+.................... /*Search functions*/ 
+.................... /* standard template: void *memchr(const char *s, int c). 
+....................    Finds first occurrence of c in n characters of s */ 
+....................  
+.................... char *memchr(void *s,unsigned int8 c,size_t n) 
+.................... { 
+....................    char uc; 
+....................    char *su; 
+....................    uc=c; 
+....................    for(su=s;0<n;++su,--n) 
+....................       if(*su==uc) 
+....................       return su; 
+....................    return NULL; 
+.................... } 
+....................  
+.................... /* standard template: char *strchr(const char *s, int c). 
+....................    Finds first occurrence of c in s */ 
+....................  
+.................... char *strchr(char *s, unsigned int8 c) 
+.................... { 
+....................    for (; *s != c; s++) 
+....................       if (*s == '\0') 
+....................          return(0); 
+....................    return(s); 
+.................... } 
+.................... /* standard template: 
+....................    size_t strcspn(const char *s1, const char *s2). 
+....................    Computes length of max initial segment of s1 that 
+....................    consists entirely of characters NOT from s2*/ 
+....................  
+.................... unsigned int8  strcspn(char *s1, char *s2) 
+.................... { 
+....................    char *sc1, *sc2; 
+....................  
+....................    for (sc1 = s1; *sc1 != 0; sc1++) 
+....................       for (sc2 = s2; *sc2 != 0; sc2++) 
+....................          if (*sc1 == *sc2) 
+....................             return(sc1 - s1); 
+....................    return(sc1 - s1); 
+.................... } 
+.................... /* standard template: 
+....................    char *strpbrk(const char *s1, const char *s2). 
+....................    Locates first occurence of any character from s2 in s1; 
+....................    returns s1 if s2 is empty string */ 
+....................  
+.................... char *strpbrk(char *s1, char *s2) 
+.................... { 
+....................    char *sc1, *sc2; 
+....................  
+....................    for (sc1 = s1; *sc1 != 0; sc1++) 
+....................       for (sc2 = s2; *sc2 != 0; sc2++) 
+....................          if (*sc1 == *sc2) 
+....................             return(sc1); 
+....................    return(0); 
+.................... } 
+....................  
+....................  
+.................... /* standard template: char *strrchr(const char *s, int c). 
+....................    Finds last occurrence of c in s */ 
+....................  
+.................... char *strrchr(char *s, unsigned int8 c) 
+.................... { 
+....................    char *p; 
+....................  
+....................    for (p = 0; ; s++) 
+....................    { 
+....................       if (*s == c) 
+....................          p = s; 
+....................       if (*s == '\0') 
+....................          return(p); 
+....................    } 
+.................... } 
+.................... /* computes length of max initial segment of s1 consisting 
+....................    entirely of characters from s2 */ 
+....................  
+.................... unsigned int8  strspn(char *s1, char *s2) 
+.................... { 
+....................    char *sc1, *sc2; 
+....................  
+....................    for (sc1 = s1; *sc1 != 0; sc1++) 
+....................       for (sc2 = s2; ; sc2++) 
+....................     if (*sc2 == '\0') 
+....................        return(sc1 - s1); 
+....................          else if (*sc1 == *sc2) 
+....................             break; 
+....................    return(sc1 - s1); 
+.................... } 
+.................... /* standard template: 
+....................    char *strstr(const char *s1, const char *s2); 
+....................    Locates first occurence of character sequence s2 in s1; 
+....................    returns 0 if s2 is empty string 
+....................  
+....................    Uncomment #define FASTER_BUT_MORE_ROM at the top of the 
+....................    file to use the faster algorithm */ 
+.................... char *strstr(char *s1, char *s2) 
+.................... { 
+....................    char *s, *t; 
+....................  
+....................    #ifdef FASTER_BUT_MORE_ROM 
+....................    if (*s2 == '\0') 
+....................          return(s1); 
+....................    #endif 
+....................  
+....................    while (*s1) 
+....................    { 
+....................       for(s = s1, t = s2; *t && (*s == *t); ++s, ++t); 
+....................  
+....................       if (*t == '\0') 
+....................          return s1; 
+....................       ++s1; 
+....................       #ifdef FASTER_BUT_MORE_ROM 
+....................          while(*s1 != '\0' && *s1 != *s2) 
+....................             ++s1; 
+....................       #endif 
+....................    } 
+....................    return 0; 
+.................... } 
+....................  
+.................... /* standard template: char *strtok(char *s1, const char *s2). 
+....................  
+....................    Finds next token in s1 delimited by a character from separator 
+....................    string s2 (which can be different from call to call).  First call 
+....................    starts at beginning of s1 searching for first character NOT 
+....................    contained in s2; returns 0 if none is found. 
+....................    If one is found, it is the start of first token (return value). 
+....................    Function then searches from there for a character contained in s2. 
+....................    If none is found, current token extends to end of s1, and subsequent 
+....................    searches for a token will return 0.  If one is found, it is 
+....................    overwritten by '\0', which terminates current token.  Function saves 
+....................    pointer to following character from which next search will start. 
+....................    Each subsequent call, with 0 as first argument, starts searching 
+....................    from saved pointer */ 
+....................  
+.................... char *strtok(char *s1, char *s2) 
+.................... { 
+....................    char *beg, *end; 
+....................    static char *save; 
+....................  
+....................    beg = (s1)? s1: save; 
+....................    beg += strspn(beg, s2); 
+....................    if (*beg == '\0') 
+....................    { 
+....................       *save = ' '; 
+....................       return(0); 
+....................    } 
+....................    end = strpbrk(beg, s2); 
+....................    if (*end != '\0') 
+....................    { 
+....................       *end = '\0'; 
+....................       end++; 
+....................    } 
+....................    save = end; 
+....................    return(beg); 
+.................... } 
+....................  
+.................... /*****************************************************************/ 
+.................... /*Miscellaneous functions*/ 
+.................... /* standard template 
+.................... maps error number in errnum to an error message string 
+.................... Returns: Pointer to string 
+.................... */ 
+.................... #ifdef _ERRNO 
+.................... char * strerror(unsigned int8 errnum) 
+.................... { 
+.................... static char s[13]; 
+.................... switch( errnum) 
+.................... { 
+.................... case 0: 
+....................    strcpy(s,"no errors"); 
+....................    return s; 
+.................... case EDOM : 
+....................    strcpy(s,"domain error"); 
+....................    return s; 
+.................... case ERANGE: 
+....................    strcpy(s,"range error"); 
+....................    return s; 
+.................... } 
+.................... } 
+.................... #ENDIF 
+.................... /* standard template: size_t strlen(const char *s). 
+....................    Computes length of s1 (preceding terminating 0) */ 
+....................  
+.................... unsigned int8 strlen(char *s) 
+.................... { 
+....................    char *sc; 
+....................  
+....................    for (sc = s; *sc != 0; sc++); 
+....................    return(sc - s); 
+.................... } 
+....................  
+.................... /* standard template: size_t stricmp(const char *s1, const char *s2). 
+....................    Compares s1 to s2 ignoring case (upper vs. lower) */ 
+....................  
+.................... signed int8 stricmp(char *s1, char *s2) 
+.................... { 
+....................  for(; *s1==*s2||(isalpha(*s1)&&isalpha(*s2)&&(*s1==*s2+32||*s2==*s1+32)); 
+....................     s1++, s2++) 
+....................     if (*s1 == '\0') 
+....................        return(0); 
+....................  return((*s1 < *s2) ? -1: 1); 
+.................... } 
+....................  
+....................  
+.................... /* standard template: char *strlwr(char *s). 
+....................    Replaces uppercase letters by lowercase; 
+....................    returns pointer to new string s */ 
+....................  
+.................... char *strlwr(char *s) 
+.................... { 
+....................    char *p; 
+....................  
+....................    for (p = s; *p != '\0'; p++) 
+....................       if (*p >= 'A' && *p <='Z') 
+....................          *p += 'a' - 'A'; 
+....................    return(s); 
+.................... } 
+....................  
+.................... /* standard template: char *strupr(char *s). 
+....................    Replaces lowercase letters by upercase; 
+....................    returns pointer to new string s */ 
+....................  
+.................... char *strupr(char *s) 
+.................... { 
+....................    char *p; 
+....................  
+....................    for (p = s; *p != '\0'; p++) 
+....................       if (*p >= 'a' && *p <='z') 
+....................          *p -= 'a' - 'A'; 
+....................    return(s); 
+.................... } 
+....................  
+....................  
+.................... /************************************************************/ 
+....................  
+....................  
+.................... #endif 
+....................  
+.................... #include <INPUT.C> 
+.................... /////////////////////////////////////////////////////////////////////////// 
+.................... ////        (C) Copyright 1996,2003 Custom Computer Services           //// 
+.................... //// This source code may only be used by licensed users of the CCS C  //// 
+.................... //// compiler.  This source code may only be distributed to other      //// 
+.................... //// licensed users of the CCS C compiler.  No other use, reproduction //// 
+.................... //// or distribution is permitted without written permission.          //// 
+.................... //// Derivative programs created using this software in object code    //// 
+.................... //// form are not restricted in any way.                               //// 
+.................... /////////////////////////////////////////////////////////////////////////// 
+....................  
+....................  
+.................... #include <ctype.h> 
+.................... //////////////////////////////////////////////////////////////////////////// 
+.................... ////        (C) Copyright 1996,2003 Custom Computer Services            //// 
+.................... //// This source code may only be used by licensed users of the CCS C   //// 
+.................... //// compiler.  This source code may only be distributed to other       //// 
+.................... //// licensed users of the CCS C compiler.  No other use, reproduction  //// 
+.................... //// or distribution is permitted without written permission.           //// 
+.................... //// Derivative programs created using this software in object code     //// 
+.................... //// form are not restricted in any way.                                //// 
+.................... //////////////////////////////////////////////////////////////////////////// 
+....................  
+.................... #ifndef _CTYPE 
+.................... #define _CTYPE 
+....................  
+.................... #define islower(x)  isamong(x,"abcdefghijklmnopqrstuvwxyz") 
+.................... #define isupper(x)  isamong(x,"ABCDEFGHIJKLMNOPQRSTUVWXYZ") 
+.................... #define isalnum(x)  isamong(x,"0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz") 
+.................... #define isalpha(x)  isamong(x,"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz") 
+.................... #define isdigit(x)  isamong(x,"0123456789") 
+.................... #define isspace(x)  ((x)==' ') 
+.................... #define isxdigit(x) isamong(x,"0123456789ABCDEFabcdef") 
+.................... #define iscntrl(x)  ((x)<' ') 
+.................... #define isprint(x)  ((x)>=' ') 
+.................... #define isgraph(x)  ((x)>' ') 
+.................... #define ispunct(x)  (((x)>' ')&&!isalnum(x)) 
+....................  
+.................... #endif 
+....................  
+....................  
+....................  
+.................... BYTE gethex1() { 
+....................    char digit; 
+....................  
+....................    digit = getc(); 
+....................  
+....................    putc(digit); 
+....................  
+....................    if(digit<='9') 
+....................      return(digit-'0'); 
+....................    else 
+....................      return((toupper(digit)-'A')+10); 
+.................... } 
+....................  
+.................... BYTE gethex() { 
+....................    unsigned int8 lo,hi; 
+....................  
+....................    hi = gethex1(); 
+....................    lo = gethex1(); 
+....................    if(lo==0xdd) 
+....................      return(hi); 
+....................    else 
+....................      return( hi*16+lo ); 
+.................... } 
+....................  
+.................... void get_string(char* s, unsigned int8 max) { 
+....................    unsigned int8 len; 
+....................    char c; 
+....................  
+....................    --max; 
+....................    len=0; 
+....................    do { 
+....................      c=getc(); 
+....................      if(c==8) {  // Backspace 
+....................         if(len>0) { 
+....................           len--; 
+....................           putc(c); 
+....................           putc(' '); 
+....................           putc(c); 
+....................         } 
+....................      } else if ((c>=' ')&&(c<='~')) 
+....................        if(len<=max) { 
+....................          s[len++]=c; 
+....................          putc(c); 
+....................        } 
+....................    } while(c!=13); 
+....................    s[len]=0; 
+.................... } 
+....................  
+.................... // stdlib.h is required for the ato_ conversions 
+.................... // in the following functions 
+.................... #ifdef _STDLIB 
+.................... #if !defined(__PCD__) 
+.................... signed int8 get_int() { 
+....................   char s[5]; 
+....................   signed int8 i; 
+....................  
+....................   get_string(s, 5); 
+....................  
+....................   i=atoi(s); 
+....................   return(i); 
+.................... } 
+.................... #endif 
+....................  
+.................... #if defined(__PCD__) 
+.................... signed int16 get_int() { 
+....................   char s[5]; 
+....................   signed int16 i; 
+....................  
+....................   get_string(s, 7); 
+....................  
+....................   i=atoi(s); 
+....................   return(i); 
+.................... } 
+.................... #endif 
+....................  
+.................... #if !defined(__PCD__) 
+.................... signed int16 get_long() { 
+....................   char s[7]; 
+....................   signed int16 l; 
+....................  
+....................   get_string(s, 7); 
+....................   l=atol(s); 
+....................   return(l); 
+.................... } 
+.................... #endif 
+....................  
+.................... #if defined(__PCD__) 
+.................... signed int32 get_long() { 
+....................   char s[7]; 
+....................   signed int32 l; 
+....................  
+....................   get_string(s, 10); 
+....................   l=atoi32(s); 
+....................   return(l); 
+.................... } 
+.................... #endif 
+....................  
+.................... float get_float() { 
+....................   char s[20]; 
+....................   float f; 
+....................  
+....................   get_string(s, 20); 
+....................   f = atof(s); 
+....................   return(f); 
+.................... } 
+....................  
+.................... #endif 
+....................  
+....................  
+.................... #USE STANDARD_IO(A) 
+....................  
+....................  
+.................... int komut=-1; 
+.................... unsigned long duty=100,value=0; 
+.................... float v=0,vadc; 
+....................  
+.................... #include "hc_sr_04.c" 
+.................... /// 
+....................  
+.................... #define trig1 PIN_A1 
+.................... #define echo1 PIN_A2 
+.................... #define trig2 PIN_A3 
+.................... #define echo2 PIN_A4 
+....................  
+.................... int16 sure=0,sure_up=0,sure_down=0; 
+.................... float uzaklik=0; 
+....................  
+.................... #int_CNI FAST 
+.................... void CCNI_Interrupt(){ 
+*
+02AE:  PUSH.S  
+....................    //clear_interrupt(INTR_CN_PIN | PIN_A2); 
+....................    if(input(echo1)){ 
+02B0:  BSET.B  2C0.2
+02B2:  BTSS.B  2C2.2
+02B4:  BRA     2BC
+....................     
+....................       sure_up=get_timer1(); 
+02B6:  PUSH    100
+02B8:  POP     816
+....................        
+....................     }else{ 
+02BA:  BRA     2C0
+....................      
+....................       sure_down=get_timer1(); 
+02BC:  PUSH    100
+02BE:  POP     818
+....................        
+....................    } 
+....................  
+.................... } 
+02C0:  BCLR.B  86.3
+02C2:  POP.S   
+02C4:  RETFIE  
+.................... float cni_uzaklik_olc(){ 
+*
+0A92:  MOV     W5,[W15++]
+0A94:  MOV     W6,[W15++]
+0A96:  MOV     W7,[W15++]
+....................    //2N700 mosfet üzerinden baðlandýðýnda 
+....................    /* 
+....................    output_low(trig1);// ters baðlý high olur çýkýþ 
+....................    delay_us(20); 
+....................    output_high(trig1);// low çýkýþ 
+....................    set_timer1(0x00);*/ 
+....................     
+....................    output_float(trig1); 
+0A98:  BSET.B  2C0.1
+....................    delay_us(20); 
+0A9A:  REPEAT  #4E
+0A9C:  NOP     
+....................    output_low(trig1); 
+0A9E:  BCLR.B  2C0.1
+0AA0:  BCLR.B  2C4.1
+....................    set_timer1(0x00); 
+0AA2:  CLR     100
+....................     
+....................    if(sure_up>0&&sure_down>0){ 
+0AA4:  MOV     816,W4
+0AA6:  CP      W4,#0
+0AA8:  BRA     LE,AF2
+0AAA:  MOV     818,W4
+0AAC:  CP      W4,#0
+0AAE:  BRA     LE,AF2
+....................       sure=sure_down-sure_up; 
+0AB0:  MOV     818,W4
+0AB2:  MOV     816,W3
+0AB4:  SUB     W4,W3,W0
+0AB6:  MOV     W0,814
+....................       return 2*(sure/58.0); 
+0AB8:  MOV     814,W0
+0ABA:  CLR     W3
+0ABC:  BTSC    W0.F
+0ABE:  SETM    W3
+0AC0:  MOV     W3,W1
+0AC2:  MOV     W3,W2
+0AC4:  CALL    926
+0AC8:  MOV     #0,W4
+0ACA:  MOV     #0,W5
+0ACC:  MOV     #0,W6
+0ACE:  MOV     #404D,W7
+0AD0:  CALL    98A
+0AD4:  MOV     W0,W4
+0AD6:  MOV     W1,W5
+0AD8:  MOV     W2,W6
+0ADA:  MOV     W3,W7
+0ADC:  MOV     #0,W0
+0ADE:  MOV     #0,W1
+0AE0:  MOV     #0,W2
+0AE2:  MOV     #4000,W3
+0AE4:  CALL    7D2
+0AE8:  CALL    8E2
+0AEC:  MOV     W1,W0
+0AEE:  MOV     W2,W1
+0AF0:  BRA     AF2
+....................    
+....................    } 
+.................... } 
+0AF2:  MOV     [--W15],W7
+0AF4:  MOV     [--W15],W6
+0AF6:  MOV     [--W15],W5
+0AF8:  RETURN  
+.................... void uzaklik_olc(){ 
+....................    output_a(0x00); 
+....................     
+....................    output_low(trig1);// ters baðlý high olur çýkýþ 
+....................    delay_us(10); 
+....................   // delay_ms(1000); 
+....................    output_high(trig1); 
+....................    set_timer1(0x00); 
+....................     
+....................    //fprintf(pc,"SR04.......\r"); 
+....................    while(!input(echo1)); 
+....................    set_timer1(0x00); 
+....................    //fprintf(pc,"high.......\r"); 
+....................    while(input(echo1)); 
+....................    //fprintf(pc,"low.......\r"); 
+....................    sure=get_timer1(); 
+....................    uzaklik=sure/58.0;// (sure/58)/2; timer1 2uS de bir sayar 1:8 prescalar deðeri ile  
+....................                     // Fcy=8MHz/2=4MHz=0.25us, 1:8= 0.25*8 = 2us    
+.................... } 
+....................  
+.................... #include "komutlar.c" 
+.................... /// 
+.................... #define VCC 3.81      //Max çýkýþ gerilimi zener diyot ve 
+.................... #define v_ileri 3.45 //3.52  // 5V vcc degerine göre  
+.................... #define v_geri 1.0   //1.14 
+.................... #define v_stop 2.0  //2.50 
+.................... #define v_sag_ileri 2.93 //3.00 
+....................  
+.................... //#define duty_max 4000   //1KHz için 
+.................... #define duty_max 8000   //500Hz için   
+.................... //#define duty_max 16000   //250Hz için 
+....................  
+.................... const int DUR =0; 
+.................... const int ILERI =1; 
+.................... const int GERI =2; 
+.................... const int SOL =3; 
+.................... const int SAG =4; 
+.................... const int SAG_ILERI =5;//Çapraz komutlar 
+.................... const int SAG_GERI =6; 
+.................... const int SOL_ILERI =7; 
+.................... const int SOL_GERI =8; 
+....................  
+.................... const int SENSOR_OKU =10; 
+....................  
+.................... long Vdc_duty(float vdc){ 
+*
+0674:  MOV     W5,[W15++]
+0676:  MOV     W6,[W15++]
+....................    return (1-(vdc/VCC))*duty_max; 
+0678:  MOV     920,W0
+067A:  MOV     922,W1
+067C:  MOV     #D70A,W2
+067E:  MOV     #4073,W3
+0680:  CALL    300
+0684:  BSET.B  43.0
+0686:  MOV     W0,W2
+0688:  MOV     W1,W3
+068A:  MOV     #0,W0
+068C:  MOV     #3F80,W1
+068E:  CALL    3CA
+0692:  MOV     W0,W5
+0694:  MOV     W1,W6
+0696:  MOV     W5,W0
+0698:  MOV     W6,W1
+069A:  MOV     #0,W2
+069C:  MOV     #45FA,W3
+069E:  CALL    574
+06A2:  CALL    638
+06A6:  MOV.D   W0,W0
+.................... } 
+06A8:  MOV     [--W15],W6
+06AA:  MOV     [--W15],W5
+06AC:  RETURN  
+.................... void sol_sag_1(float vdc)//Data sheets e göre 2 nolu pin 
+.................... { 
+*
+06CA:  MOV     W5,[W15++]
+06CC:  MOV     W6,[W15++]
+....................    set_pwm_duty(1,Vdc_duty(vdc)); 
+06CE:  PUSH    918
+06D0:  POP     920
+06D2:  PUSH    91A
+06D4:  POP     922
+06D6:  CALL    674
+06DA:  MOV     W0,W5
+06DC:  MOV     W1,W6
+06DE:  MOV     W5,180
+.................... } 
+06E0:  MOV     [--W15],W6
+06E2:  MOV     [--W15],W5
+06E4:  RETURN  
+.................... void ileri_geri_1(float vdc)//Data sheets e göre 4 nolu pin 
+.................... { 
+*
+0702:  MOV     W5,[W15++]
+0704:  MOV     W6,[W15++]
+....................    set_pwm_duty(2,Vdc_duty(vdc)); 
+0706:  PUSH    918
+0708:  POP     920
+070A:  PUSH    91A
+070C:  POP     922
+070E:  CALL    674
+0712:  MOV     W0,W5
+0714:  MOV     W1,W6
+0716:  MOV     W5,186
+.................... } 
+0718:  MOV     [--W15],W6
+071A:  MOV     [--W15],W5
+071C:  RETURN  
+.................... void ileri_geri_2(float vdc)//Data sheets e göre 5 nolu pin 
+.................... { 
+071E:  MOV     W5,[W15++]
+0720:  MOV     W6,[W15++]
+....................    set_pwm_duty(3,Vdc_duty(vdc)); 
+0722:  PUSH    918
+0724:  POP     920
+0726:  PUSH    91A
+0728:  POP     922
+072A:  CALL    674
+072E:  MOV     W0,W5
+0730:  MOV     W1,W6
+0732:  MOV     W5,18C
+.................... } 
+0734:  MOV     [--W15],W6
+0736:  MOV     [--W15],W5
+0738:  RETURN  
+.................... void merkez_gerilim(float vdc)//Data sheets e göre 6 nolu pin 
+.................... { 
+*
+06AE:  MOV     W5,[W15++]
+06B0:  MOV     W6,[W15++]
+....................    set_pwm_duty(4,Vdc_duty(vdc)); 
+06B2:  PUSH    918
+06B4:  POP     920
+06B6:  PUSH    91A
+06B8:  POP     922
+06BA:  CALL    674
+06BE:  MOV     W0,W5
+06C0:  MOV     W1,W6
+06C2:  MOV     W5,192
+.................... } 
+06C4:  MOV     [--W15],W6
+06C6:  MOV     [--W15],W5
+06C8:  RETURN  
+.................... void sol_sag_2(float vdc)//Data sheets e göre 7 nolu pin 
+.................... { 
+*
+06E6:  MOV     W5,[W15++]
+06E8:  MOV     W6,[W15++]
+....................    set_pwm_duty(5,Vdc_duty(vdc)); 
+06EA:  PUSH    918
+06EC:  POP     920
+06EE:  PUSH    91A
+06F0:  POP     922
+06F2:  CALL    674
+06F6:  MOV     W0,W5
+06F8:  MOV     W1,W6
+06FA:  MOV     W5,198
+.................... } 
+06FC:  MOV     [--W15],W6
+06FE:  MOV     [--W15],W5
+0700:  RETURN  
+.................... ///// 
+.................... void araba_dur(){ 
+....................    merkez_gerilim(v_stop); // DS 6 nolu PIN, PIC te PIN_B8 Bacak 17  OC4 
+*
+073A:  CLR     918
+073C:  MOV     #4000,W4
+073E:  MOV     W4,91A
+0740:  CALL    6AE
+....................    sol_sag_1(v_stop);      // DS 2 nolu PIN, PIC te PIN_B5 Bacak 14  OC1 
+0744:  CLR     918
+0746:  MOV     #4000,W4
+0748:  MOV     W4,91A
+074A:  CALL    6CA
+....................    sol_sag_2(v_stop);      // DS 7 nolu PIN, PIC te PIN_B9 Bacak 18  OC5 
+074E:  CLR     918
+0750:  MOV     #4000,W4
+0752:  MOV     W4,91A
+0754:  CALL    6E6
+....................    ileri_geri_1(v_stop);   // DS 4 nolu PIN, PIC te PIN_B6 Bacak 15  OC2 
+0758:  CLR     918
+075A:  MOV     #4000,W4
+075C:  MOV     W4,91A
+075E:  CALL    702
+....................    ileri_geri_2(v_stop);   // DS 5 nolu PIN, PIC te PIN_B7 Bacak 16  OC3 
+0762:  CLR     918
+0764:  MOV     #4000,W4
+0766:  MOV     W4,91A
+0768:  CALL    71E
+....................    //fprintf(pc,"DUR...\r"); 
+.................... } 
+076C:  RETURN  
+.................... void araba_ileri(){ 
+....................    sol_sag_1(v_stop);    
+*
+0F5E:  CLR     918
+0F60:  MOV     #4000,W4
+0F62:  MOV     W4,91A
+0F64:  CALL    6CA
+....................    sol_sag_2(v_stop); 
+0F68:  CLR     918
+0F6A:  MOV     #4000,W4
+0F6C:  MOV     W4,91A
+0F6E:  CALL    6E6
+....................    ileri_geri_1(v_ileri); 
+0F72:  MOV     #CCCD,W4
+0F74:  MOV     W4,918
+0F76:  MOV     #405C,W4
+0F78:  MOV     W4,91A
+0F7A:  CALL    702
+....................    ileri_geri_2(v_ileri); 
+0F7E:  MOV     #CCCD,W4
+0F80:  MOV     W4,918
+0F82:  MOV     #405C,W4
+0F84:  MOV     W4,91A
+0F86:  CALL    71E
+....................    //fprintf(pc,"ileri...\r"); 
+.................... } 
+0F8A:  RETURN  
+.................... void araba_geri(){ 
+....................    sol_sag_1(v_stop); 
+0F8C:  CLR     918
+0F8E:  MOV     #4000,W4
+0F90:  MOV     W4,91A
+0F92:  CALL    6CA
+....................    sol_sag_2(v_stop); 
+0F96:  CLR     918
+0F98:  MOV     #4000,W4
+0F9A:  MOV     W4,91A
+0F9C:  CALL    6E6
+....................    ileri_geri_1(v_geri); 
+0FA0:  CLR     918
+0FA2:  MOV     #3F80,W4
+0FA4:  MOV     W4,91A
+0FA6:  CALL    702
+....................    ileri_geri_2(v_geri); 
+0FAA:  CLR     918
+0FAC:  MOV     #3F80,W4
+0FAE:  MOV     W4,91A
+0FB0:  CALL    71E
+....................    //fprintf(pc,"geri...\r"); 
+....................  
+.................... } 
+0FB4:  RETURN  
+.................... void araba_sola(){ 
+....................    sol_sag_1(v_geri); 
+*
+0FE4:  CLR     918
+0FE6:  MOV     #3F80,W4
+0FE8:  MOV     W4,91A
+0FEA:  CALL    6CA
+....................    sol_sag_2(v_geri); 
+0FEE:  CLR     918
+0FF0:  MOV     #3F80,W4
+0FF2:  MOV     W4,91A
+0FF4:  CALL    6E6
+....................    ileri_geri_1(v_stop); 
+0FF8:  CLR     918
+0FFA:  MOV     #4000,W4
+0FFC:  MOV     W4,91A
+0FFE:  CALL    702
+....................    ileri_geri_2(v_stop); 
+1002:  CLR     918
+1004:  MOV     #4000,W4
+1006:  MOV     W4,91A
+1008:  CALL    71E
+....................    //fprintf(pc,"sola...\r"); 
+.................... } 
+100C:  RETURN  
+.................... void araba_saga(){ 
+....................    sol_sag_1(v_ileri); 
+*
+0FB6:  MOV     #CCCD,W4
+0FB8:  MOV     W4,918
+0FBA:  MOV     #405C,W4
+0FBC:  MOV     W4,91A
+0FBE:  CALL    6CA
+....................    sol_sag_2(v_ileri); 
+0FC2:  MOV     #CCCD,W4
+0FC4:  MOV     W4,918
+0FC6:  MOV     #405C,W4
+0FC8:  MOV     W4,91A
+0FCA:  CALL    6E6
+....................    ileri_geri_1(v_stop); 
+0FCE:  CLR     918
+0FD0:  MOV     #4000,W4
+0FD2:  MOV     W4,91A
+0FD4:  CALL    702
+....................    ileri_geri_2(v_stop); 
+0FD8:  CLR     918
+0FDA:  MOV     #4000,W4
+0FDC:  MOV     W4,91A
+0FDE:  CALL    71E
+....................    //fprintf(pc,"saga...\r"); 
+.................... } 
+0FE2:  RETURN  
+.................... //////////////////////////////7 
+.................... void araba_sag_ileri(){ 
+....................    sol_sag_1(v_ileri); 
+*
+100E:  MOV     #CCCD,W4
+1010:  MOV     W4,918
+1012:  MOV     #405C,W4
+1014:  MOV     W4,91A
+1016:  CALL    6CA
+....................    sol_sag_2(v_ileri); 
+101A:  MOV     #CCCD,W4
+101C:  MOV     W4,918
+101E:  MOV     #405C,W4
+1020:  MOV     W4,91A
+1022:  CALL    6E6
+....................    ileri_geri_1(v_sag_ileri);//*** v_ileri olma olasýlýðý yüksek 
+1026:  MOV     #851F,W4
+1028:  MOV     W4,918
+102A:  MOV     #403B,W4
+102C:  MOV     W4,91A
+102E:  CALL    702
+....................    ileri_geri_2(v_sag_ileri); 
+1032:  MOV     #851F,W4
+1034:  MOV     W4,918
+1036:  MOV     #403B,W4
+1038:  MOV     W4,91A
+103A:  CALL    71E
+....................    //fprintf(pc,"sag ileri...\r"); 
+.................... } 
+103E:  RETURN  
+.................... void araba_sag_geri(){ 
+....................    sol_sag_1(v_ileri); 
+1040:  MOV     #CCCD,W4
+1042:  MOV     W4,918
+1044:  MOV     #405C,W4
+1046:  MOV     W4,91A
+1048:  CALL    6CA
+....................    sol_sag_2(v_ileri); 
+104C:  MOV     #CCCD,W4
+104E:  MOV     W4,918
+1050:  MOV     #405C,W4
+1052:  MOV     W4,91A
+1054:  CALL    6E6
+....................    ileri_geri_1(v_geri); 
+1058:  CLR     918
+105A:  MOV     #3F80,W4
+105C:  MOV     W4,91A
+105E:  CALL    702
+....................    ileri_geri_2(v_geri); 
+1062:  CLR     918
+1064:  MOV     #3F80,W4
+1066:  MOV     W4,91A
+1068:  CALL    71E
+....................    //fprintf(pc,"sag geri...\r"); 
+.................... } 
+106C:  RETURN  
+.................... void araba_sol_ileri(){ 
+....................    sol_sag_1(v_geri); 
+106E:  CLR     918
+1070:  MOV     #3F80,W4
+1072:  MOV     W4,91A
+1074:  CALL    6CA
+....................    sol_sag_2(v_geri); 
+1078:  CLR     918
+107A:  MOV     #3F80,W4
+107C:  MOV     W4,91A
+107E:  CALL    6E6
+....................    ileri_geri_1(v_ileri); 
+1082:  MOV     #CCCD,W4
+1084:  MOV     W4,918
+1086:  MOV     #405C,W4
+1088:  MOV     W4,91A
+108A:  CALL    702
+....................    ileri_geri_2(v_ileri); 
+108E:  MOV     #CCCD,W4
+1090:  MOV     W4,918
+1092:  MOV     #405C,W4
+1094:  MOV     W4,91A
+1096:  CALL    71E
+....................    //fprintf(pc,"sol ileri...\r"); 
+.................... } 
+109A:  RETURN  
+.................... void araba_sol_geri(){ 
+....................    sol_sag_1(v_geri); 
+109C:  CLR     918
+109E:  MOV     #3F80,W4
+10A0:  MOV     W4,91A
+10A2:  CALL    6CA
+....................    sol_sag_2(v_geri); 
+10A6:  CLR     918
+10A8:  MOV     #3F80,W4
+10AA:  MOV     W4,91A
+10AC:  CALL    6E6
+....................    ileri_geri_1(v_geri); 
+10B0:  CLR     918
+10B2:  MOV     #3F80,W4
+10B4:  MOV     W4,91A
+10B6:  CALL    702
+....................    ileri_geri_2(v_geri); 
+10BA:  CLR     918
+10BC:  MOV     #3F80,W4
+10BE:  MOV     W4,91A
+10C0:  CALL    71E
+....................    //fprintf(pc,"sol geri...\r"); 
+....................  
+.................... } 
+10C4:  RETURN  
+.................... ///// 
+.................... void komut_deneme(){ 
+....................    araba_ileri(); delay_ms(5000); 
+....................    araba_dur();  delay_ms(5000); 
+....................    araba_geri();delay_ms(5000); 
+....................    araba_dur();delay_ms(5000); 
+....................    araba_sola();delay_ms(5000); 
+....................    araba_dur();delay_ms(5000); 
+....................    araba_saga();delay_ms(5000); 
+....................    araba_dur();delay_ms(5000); 
+....................     
+....................    araba_dur();  delay_ms(5000); 
+....................    araba_sag_ileri();delay_ms(5000); 
+....................    araba_dur();  delay_ms(5000); 
+....................    araba_sag_geri();delay_ms(5000); 
+....................    araba_dur();  delay_ms(5000); 
+....................    araba_sol_ileri();delay_ms(5000); 
+....................    araba_dur();  delay_ms(5000); 
+....................    araba_sol_geri();delay_ms(5000); 
+.................... } 
+....................  
+.................... #include "kesmeler.c" 
+.................... char seri_buf[250]; 
+.................... const int DONANIM =100; 
+....................  
+.................... void get_bilgi() { 
+....................    char c; 
+....................    unsigned int8  i=0; 
+....................    while(kbhit(pc)){ 
+....................       c=fgetc(pc); 
+....................       seri_buf[i]=c; 
+....................       i++; 
+....................   }   
+.................... } 
+....................  
+.................... ///// 
+.................... void dizi_sil(char *dizi){ 
+....................    int i=0; 
+....................    for(i=0;i<strlen(dizi);i++)  
+....................       if(dizi[i]!=0)dizi[i]=0; 
+.................... } 
+.................... int komut_al(){ 
+*
+0F0E:  MOV     W5,[W15++]
+0F10:  MOV     W6,[W15++]
+0F12:  SETM    918
+....................    int komut_kodu=-1; 
+....................    if((seri_buf[0]=='*')){ 
+0F14:  MOV     81E,W4
+0F16:  XOR.B   #2A,W4L
+0F18:  BRA     NZ,F54
+....................       komut_kodu=((seri_buf[1]-48)*100+(seri_buf[2]-48)*10+(seri_buf[3]-48)); 
+0F1A:  MOV.B   81F,W0L
+0F1C:  SE      W0,W0
+0F1E:  MOV     #30,W4
+0F20:  SUB     W0,W4,W5
+0F22:  MOV     #64,W4
+0F24:  MUL.SS  W5,W4,W0
+0F26:  MOV     W0,W5
+0F28:  MOV.B   820,W0L
+0F2A:  SE      W0,W0
+0F2C:  MOV     #30,W4
+0F2E:  SUB     W0,W4,W6
+0F30:  MOV     W6,W4
+0F32:  MUL.UU  W4,#A,W0
+0F34:  ADD     W0,W5,W5
+0F36:  MOV.B   821,W0L
+0F38:  SE      W0,W0
+0F3A:  SUB     #30,W0
+0F3C:  ADD     W0,W5,W0
+0F3E:  MOV     W0,918
+....................       if((seri_buf[4]=='#')){ 
+0F40:  MOV     822,W4
+0F42:  XOR.B   #23,W4L
+0F44:  BRA     NZ,F4E
+....................          //fprintf(pc, "KOMUT:%u \r",komut_kodu ); 
+....................          //delay_ms(200); 
+....................          return komut_kodu; 
+0F46:  PUSH    918
+0F48:  POP     0
+0F4A:  BRA     F58
+....................       }else return -1; 
+0F4C:  BRA     F52
+0F4E:  SETM    0
+0F50:  BRA     F58
+....................        
+....................    }else return -1; 
+0F52:  BRA     F58
+0F54:  SETM    0
+0F56:  BRA     F58
+.................... }    
+0F58:  MOV     [--W15],W6
+0F5A:  MOV     [--W15],W5
+0F5C:  RETURN  
+.................... //// 
+.................... #int_RDA FAST //level=1 
+.................... void  RDA_isr(void)  
+.................... { 
+*
+02C6:  PUSH.S  
+....................    fgets(seri_buf,pc); 
+02C8:  MOV     #81E,W3
+02CA:  DEC     W3,W3
+02CC:  INC     W3,W3
+02CE:  BTSS.B  222.0
+02D0:  BRA     2CE
+02D2:  MOV     226,W0
+02D4:  MOV.B   W0L,[W3]
+02D6:  MOV.B   #0,W0L
+02D8:  MOV.B   W0L,[W3+#1]
+02DA:  MOV.B   [W3],W2L
+02DC:  CP.B    W2L,#D
+02DE:  BTSS.B  42.1
+02E0:  BRA     2CC
+02E2:  CLR.B   [W3]
+....................     
+....................    //dizi_sil(seri_buf); 
+....................    clear_interrupt(int_rda); 
+02E4:  REPEAT  #3
+02E6:  MOV     226,W0
+02E8:  BCLR.B  85.3
+....................    //enable_interrupts(int_RDA); 
+.................... } 
+....................  
+....................  
+....................  
+....................  
+02EA:  BCLR.B  85.3
+02EC:  POP.S   
+02EE:  RETFIE  
+.................... void main() 
+.................... { 
+*
+10C6:  MOV     #4444,W0
+10C8:  MOV     W0,A8
+10CA:  MOV     #4444,W0
+10CC:  MOV     W0,AC
+10CE:  BSET.B  81.7
+10D0:  MOV     #46,W0
+10D2:  MOV.B   W0L,742
+10D4:  MOV     #57,W0
+10D6:  MOV.B   W0L,742
+10D8:  BCLR.B  742.6
+10DA:  MOV     #1F03,W0
+10DC:  MOV     W0,6A4
+10DE:  MOV     #1F0B,W0
+10E0:  MOV     W0,6A6
+10E2:  MOV     #3,W0
+10E4:  MOV     W0,6C2
+10E6:  MOV     #1200,W0
+10E8:  MOV     W0,6C4
+10EA:  MOV     #1413,W0
+10EC:  MOV     W0,6C6
+10EE:  MOV     #1615,W0
+10F0:  MOV     W0,6C8
+10F2:  MOV     #5,W0
+10F4:  MOV     W0,6CA
+10F6:  MOV     #46,W0
+10F8:  MOV.B   W0L,742
+10FA:  MOV     #57,W0
+10FC:  MOV.B   W0L,742
+10FE:  BSET.B  742.6
+1100:  CLR     744
+1102:  MOV     #8000,W4
+1104:  MOV     W4,220
+1106:  MOV     #400,W4
+1108:  MOV     W4,222
+110A:  BCLR.B  220.3
+110C:  MOV     #19,W4
+110E:  MOV     W4,228
+1110:  SETM    802
+1112:  MOV     #64,W4
+1114:  MOV     W4,804
+1116:  CLR     806
+1118:  CLR     808
+111A:  CLR     80A
+111C:  CLR     80C
+111E:  CLR     80E
+1120:  CLR     814
+1122:  CLR     816
+1124:  CLR     818
+1126:  CLR     81A
+1128:  CLR     81C
+112A:  SETM    32C
+112C:  MOV     #2780,W15
+112E:  MOV     #27FF,W0
+1130:  MOV     W0,20
+1132:  NOP     
+1134:  CLR     800
+1136:  MOV     #2780,W15
+1138:  MOV     #27FF,W0
+113A:  MOV     W0,20
+113C:  NOP     
+....................    setup_spi( FALSE ); 
+113E:  BCLR.B  241.7
+....................    setup_spi2( FALSE ); 
+1140:  BCLR.B  261.7
+....................    setup_wdt(WDT_OFF); 
+1142:  BCLR.B  740.5
+....................     
+....................    setup_timer1(TMR_INTERNAL | TMR_DIV_BY_8,0xFFFF); 
+1144:  CLR     104
+1146:  SETM    102
+1148:  MOV     #A010,W4
+114A:  MOV     W4,104
+....................    // 1:8 Prescare value, Fcy=8MHz/2=4MHz=0.25us, 1:8= 0.25*8 = 2us 
+....................    //setup_timer1(TMR_INTERNAL | TMR_DIV_BY_1); 
+....................    // 1:1 Prescare value, Fcy=8MHz/2=4MHz=0.25us, 
+....................    
+....................    setup_adc(ADC_CLOCK_INTERNAL); 
+114C:  MOV     #8000,W4
+114E:  MOV     W4,324
+1150:  MOV     #80E0,W4
+1152:  MOV     W4,320
+....................    setup_adc_ports(sAN0||sAN12||sAN11||sAN10||sAN9,VSS_VDD);//0-3.3V arasý olçüm 
+1154:  MOV     #FFFE,W4
+1156:  MOV     W4,32C
+1158:  CLR     322
+....................   //  setup_adc_ports(sAN1||sAN12||sAN11||sAN10||sAN9,VSS_VREF );//AN VDD ve VSS yok o yüzden çalýþmaz 
+....................    
+....................    //setup_timer2(TMR_INTERNAL | TMR_DIV_BY_1,4000);//1KHz PWM 
+....................    setup_timer2(TMR_INTERNAL | TMR_DIV_BY_1,8000);//500Hz PWM 
+115A:  CLR     110
+115C:  MOV     #1F40,W4
+115E:  MOV     W4,10C
+1160:  MOV     #A000,W4
+1162:  MOV     W4,110
+....................    //setup_timer2(TMR_INTERNAL | TMR_DIV_BY_1,16000);//250Hz PWM 
+....................    setup_compare(1, COMPARE_PWM | COMPARE_TIMER2);  //  sol-sað 1    PIN 2 
+1164:  MOV     #6,W4
+1166:  MOV     W4,184
+....................    setup_compare(2, COMPARE_PWM | COMPARE_TIMER2);  //  ileri-geri 1 PIN 4  
+1168:  MOV     #6,W4
+116A:  MOV     W4,18A
+....................    setup_compare(3, COMPARE_PWM | COMPARE_TIMER2);  //  ileri-geri 2 PIN 5 
+116C:  MOV     #6,W4
+116E:  MOV     W4,190
+....................    setup_compare(4, COMPARE_PWM | COMPARE_TIMER2);  //  VCC/2        PIN 6 
+1170:  MOV     #6,W4
+1172:  MOV     W4,196
+....................    setup_compare(5, COMPARE_PWM | COMPARE_TIMER2);  //  sol-sað 2    PIN 7 
+1174:  MOV     #6,W4
+1176:  MOV     W4,19C
+....................    //set_pwm_duty(1,3900); 
+....................  
+....................    fprintf(pc, " >>-.-.-.-. --> \r" );delay_ms(200); 
+1178:  MOV     #0,W1
+117A:  MOV     W1,W0
+117C:  CALL    200
+1180:  INC     W1,W1
+1182:  MOV     W1,[W15++]
+1184:  BTSC.B  223.1
+1186:  BRA     1184
+1188:  MOV     W0,224
+118A:  MOV     [--W15],W1
+118C:  MOV     #10,W0
+118E:  CPSGT   W1,W0
+1190:  BRA     117A
+1192:  MOV     #C8,W0
+1194:  CALL    2F0
+....................    fprintf(pc, " Sistem basladi... \r" ); 
+1198:  MOV     #0,W1
+119A:  MOV     W1,W0
+119C:  CALL    21E
+11A0:  INC     W1,W1
+11A2:  MOV     W1,[W15++]
+11A4:  BTSC.B  223.1
+11A6:  BRA     11A4
+11A8:  MOV     W0,224
+11AA:  MOV     [--W15],W1
+11AC:  MOV     #13,W0
+11AE:  CPSGT   W1,W0
+11B0:  BRA     119A
+....................     
+....................    set_adc_channel(0); 
+11B2:  CLR     328
+....................     
+....................    clear_interrupt(int_rda); 
+11B4:  REPEAT  #3
+11B6:  MOV     226,W0
+11B8:  BCLR.B  85.3
+....................    enable_interrupts(INT_RDA); 
+11BA:  BSET.B  95.3
+....................    enable_interrupts(INTR_CN_PIN | PIN_A2); 
+11BC:  BSET.B  63.6
+11BE:  BSET.B  96.3
+....................    enable_interrupts(INTR_GLOBAL); 
+11C0:  BCLR.B  81.7
+11C2:  CLR     42
+11C4:  BSET.B  81.7
+....................     
+....................    araba_dur(); 
+11C6:  CALL    73A
+....................    delay_ms(500); 
+11CA:  MOV     #1F4,W0
+11CC:  CALL    2F0
+....................    while(true){ 
+....................      value = read_adc(); 
+11D0:  BCLR.B  320.0
+11D2:  BSET.B  320.1
+11D4:  BTSS.B  320.0
+11D6:  BRA     11D4
+11D8:  PUSH    300
+11DA:  POP     808
+11DC:  CLR     80A
+....................      delay_ms(10); 
+11DE:  REPEAT  #1C3E
+11E0:  NOP     
+11E2:  REPEAT  #3FFF
+11E4:  NOP     
+11E6:  REPEAT  #3FFF
+11E8:  NOP     
+....................      v=(3.3f/1023)*value; 
+11EA:  MOV     808,W0
+11EC:  MOV     80A,W1
+11EE:  MOV     #0,W2
+11F0:  MOV     #0,W3
+11F2:  CALL    76E
+11F6:  MOV     W0,W4
+11F8:  MOV     W1,W5
+11FA:  MOV     W2,W6
+11FC:  MOV     W3,W7
+11FE:  MOV     #1A6D,W0
+1200:  MOV     #A6D0,W1
+1202:  MOV     #6D01,W2
+1204:  MOV     #3F6A,W3
+1206:  CALL    7D2
+120A:  CALL    8E2
+120E:  MOV     W1,80C
+1210:  MOV     W2,80E
+....................      //uzaklik_olc(); 
+....................      uzaklik=cni_uzaklik_olc(); 
+1212:  CALL    A92
+1216:  MOV     W0,81A
+1218:  MOV     W1,81C
+....................      if(uzaklik<49.0) araba_dur(); 
+121A:  MOV     81A,W0
+121C:  MOV     81C,W1
+121E:  MOV     #0,W2
+1220:  MOV     #4244,W3
+1222:  CALL    AFA
+1226:  BRA     NC,122C
+1228:  CALL    73A
+....................       
+....................      fprintf(pc, "->K=%d <> SEN=> V=%1.3f  U=%3.1f \r"komut ,v,uzaklik); 
+122C:  MOV     #0,W1
+122E:  MOV     W1,W0
+1230:  CALL    240
+1234:  INC     W1,W1
+1236:  MOV     W1,[W15++]
+1238:  BTSC.B  223.1
+123A:  BRA     1238
+123C:  MOV     W0,224
+123E:  MOV     [--W15],W1
+1240:  MOV     #3,W0
+1242:  CPSGT   W1,W0
+1244:  BRA     122E
+1246:  MOV     802,W0
+1248:  MOV     #0,W4
+124A:  CALL    B62
+124E:  MOV     #6,W1
+1250:  MOV     W1,W0
+1252:  CALL    240
+1256:  INC     W1,W1
+1258:  MOV     W1,[W15++]
+125A:  BTSC.B  223.1
+125C:  BRA     125A
+125E:  MOV     W0,224
+1260:  MOV     [--W15],W1
+1262:  MOV     #11,W0
+1264:  CPSGT   W1,W0
+1266:  BRA     1250
+1268:  MOV     80E,W2
+126A:  MOV     80C,W1
+126C:  MOV     #0,W0
+126E:  CALL    C5C
+1272:  MOV     #3,W9
+1274:  MOV     #4,W10
+1276:  CALL    D8C
+127A:  MOV     #17,W1
+127C:  MOV     W1,W0
+127E:  CALL    240
+1282:  INC     W1,W1
+1284:  MOV     W1,[W15++]
+1286:  BTSC.B  223.1
+1288:  BRA     1286
+128A:  MOV     W0,224
+128C:  MOV     [--W15],W1
+128E:  MOV     #1A,W0
+1290:  CPSGT   W1,W0
+1292:  BRA     127C
+1294:  MOV     81C,W2
+1296:  MOV     81A,W1
+1298:  MOV     #0,W0
+129A:  CALL    C5C
+129E:  MOV     #1,W9
+12A0:  MOV     #2,W10
+12A2:  CALL    D8C
+12A6:  BTSC.B  223.1
+12A8:  BRA     12A6
+12AA:  MOV     #20,W4
+12AC:  MOV     W4,224
+12AE:  BTSC.B  223.1
+12B0:  BRA     12AE
+12B2:  MOV     #D,W4
+12B4:  MOV     W4,224
+....................     // fprintf(pc, "KOMUT: %d <> SENSOR V=%1.3f \r"komut ,v); 
+....................      delay_ms(100); 
+12B6:  MOV     #64,W0
+12B8:  CALL    2F0
+....................      komut=komut_al(); 
+12BC:  CALL    F0E
+12C0:  MOV     W0,802
+....................      switch(komut){ 
+12C2:  MOV     802,W0
+12C4:  XOR     #1,W0
+12C6:  BRA     Z,12F2
+12C8:  XOR     #3,W0
+12CA:  BRA     Z,12F8
+12CC:  XOR     #2,W0
+12CE:  BRA     Z,12FE
+12D0:  XOR     #4,W0
+12D2:  BRA     Z,1304
+12D4:  XOR     #7,W0
+12D6:  BRA     Z,130A
+12D8:  XOR     #6,W0
+12DA:  BRA     Z,1310
+12DC:  XOR     #3,W0
+12DE:  BRA     Z,1316
+12E0:  XOR     #1,W0
+12E2:  BRA     Z,131C
+12E4:  XOR     #F,W0
+12E6:  BRA     Z,1322
+12E8:  XOR     #6C,W0
+12EA:  BRA     Z,1328
+12EC:  XOR     #6E,W0
+12EE:  BRA     Z,134A
+12F0:  BRA     13A6
+....................          case ILERI: 
+....................             araba_ileri(); 
+12F2:  CALL    F5E
+....................          break; 
+12F6:  BRA     13A8
+....................          case GERI: 
+....................             araba_geri(); 
+12F8:  CALL    F8C
+....................          break; 
+12FC:  BRA     13A8
+....................          case DUR: 
+....................           araba_dur(); 
+12FE:  CALL    73A
+....................          break; 
+1302:  BRA     13A8
+....................          case SAG: 
+....................             araba_saga(); 
+1304:  CALL    FB6
+....................          break; 
+1308:  BRA     13A8
+....................          case SOL: 
+....................             araba_sola(); 
+130A:  CALL    FE4
+....................          break; 
+130E:  BRA     13A8
+....................          case SAG_ILERI: 
+....................             araba_sag_ileri(); 
+1310:  CALL    100E
+....................          break; 
+1314:  BRA     13A8
+....................          case SAG_GERI: 
+....................             araba_sag_geri(); 
+1316:  CALL    1040
+....................          break; 
+131A:  BRA     13A8
+....................          case SOL_ILERI: 
+....................             araba_sol_ileri(); 
+131C:  CALL    106E
+....................          break; 
+1320:  BRA     13A8
+....................          case SOL_GERI: 
+....................             araba_sol_geri(); 
+1322:  CALL    109C
+....................          break; 
+1326:  BRA     13A8
+....................          case DONANIM: 
+....................             delay_ms(1000); 
+1328:  MOV     #3E8,W0
+132A:  CALL    2F0
+....................             fprintf(pc, "DANANIM: Baðlandý..."); 
+132E:  MOV     #0,W1
+1330:  MOV     W1,W0
+1332:  CALL    270
+1336:  INC     W1,W1
+1338:  MOV     W1,[W15++]
+133A:  BTSC.B  223.1
+133C:  BRA     133A
+133E:  MOV     W0,224
+1340:  MOV     [--W15],W1
+1342:  MOV     #13,W0
+1344:  CPSGT   W1,W0
+1346:  BRA     1330
+....................          break; 
+1348:  BRA     13A8
+....................          case SENSOR_OKU: 
+....................             v=(3.3f/1023)*value; 
+134A:  MOV     808,W0
+134C:  MOV     80A,W1
+134E:  MOV     #0,W2
+1350:  MOV     #0,W3
+1352:  CALL    76E
+1356:  MOV     W0,W4
+1358:  MOV     W1,W5
+135A:  MOV     W2,W6
+135C:  MOV     W3,W7
+135E:  MOV     #1A6D,W0
+1360:  MOV     #A6D0,W1
+1362:  MOV     #6D01,W2
+1364:  MOV     #3F6A,W3
+1366:  CALL    7D2
+136A:  CALL    8E2
+136E:  MOV     W1,80C
+1370:  MOV     W2,80E
+....................             fprintf(pc, "SENSOR V=%1.3f",v); 
+1372:  MOV     #0,W1
+1374:  MOV     W1,W0
+1376:  CALL    292
+137A:  INC     W1,W1
+137C:  MOV     W1,[W15++]
+137E:  BTSC.B  223.1
+1380:  BRA     137E
+1382:  MOV     W0,224
+1384:  MOV     [--W15],W1
+1386:  MOV     #8,W0
+1388:  CPSGT   W1,W0
+138A:  BRA     1374
+138C:  MOV     80E,W2
+138E:  MOV     80C,W1
+1390:  MOV     #0,W0
+1392:  CALL    C5C
+1396:  MOV     #3,W9
+1398:  MOV     #4,W10
+139A:  CALL    D8C
+....................             delay_ms(1000); 
+139E:  MOV     #3E8,W0
+13A0:  CALL    2F0
+....................          break; 
+13A4:  BRA     13A8
+....................          default: 
+....................            // araba_dur(); 
+....................            //komut=-1; 
+....................             break; 
+13A6:  BRA     13A8
+....................       } 
+....................        
+....................       
+....................  }//while(1) 
+13A8:  BRA     11D0
+....................  
+.................... }//main 
+....................  
+.................... ///////////////////////////////////////7 
+....................    //value = read_adc(); 
+....................      //v=(3.3f/1023)*value; 
+....................      //fprintf(pc, "Olcum %lu: ADC deger =%lu >> V= %1.2f\r",test++,value,v); 
+....................      //fprintf(pc, "Vdc icin DUTY: %lu",Vdc_duty(2.5)); 
+....................      
+....................     // fputc(13,pc); 
+....................     // fputc(test++,pc); 
+....................       //duty+=100; 
+....................       //if(duty>3850)duty=100; 
+....................       /* 
+....................       v+=0.1; 
+....................       set_pwm_duty(1,Vdc_duty(3.52f)); 
+....................       delay_ms(5000); 
+....................       set_pwm_duty(1,Vdc_duty(2.3f)); 
+....................       delay_ms(5000); 
+....................       set_pwm_duty(1,Vdc_duty(1.1f)); 
+....................       delay_ms(5000);*/ 
+....................       // 
+....................      // 
+....................       //fprintf(pc, "test:%lu V=%1.2f\r",test++,v); 
+....................       //set_pwm_duty(1,4000-duty);  
+13AA:  PWRSAV  #0
+
+Configuration Fuses:
+   Word  1L: 2F7F   WPOSTS16 WDT128 WINDIS NOWDT ICSP1 NODEBUG WRT NOPROTECT NOJTAG
+          H: FF00  
+   Word  2L: F8D7   NOPR I2C1SELD IOL1WAY OSCIO FRC SOSC_SEC WUT_DEFAULT IESO
+          H: FF00  
