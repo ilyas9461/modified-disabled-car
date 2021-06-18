@@ -23,6 +23,8 @@ Elimizde bulunan joyistik kontrollü engelli arabasının farklı kontrol biçim
 
 ![araba](foto_sunu/IMG_20140523_091438.jpg)
 
+[Örnek çalışma videosu için tıklayın ...](https://www.youtube.com/watch?v=td3C3B1HCIA)
+
 **Kullanılan Teknolojiler :**
 
 1. Mikrodenetleyiciler CCS PIC C (PIC24F)
