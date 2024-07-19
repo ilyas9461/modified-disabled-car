@@ -23,7 +23,7 @@ Especially to demonstrate voice controllability.
 - With the designed electronic control card, control was carried out using voice commands along with the car's joystick. This structure enables alternative control methods without damaging the device's original circuits.
 
 <p  align="center">
-<img src="./img_presentation/IMG_20140523_091438.jpg" width="75%" height="100%" border: 5px solid #555 >
+<img src="./img_presentation/IMG_20140523_091438.jpg" width="60%" height="100%" border: 5px solid #555 >
 </p>
 
 [Click for sample working video ...](https://www.youtube.com/watch?v=td3C3B1HCIA)
