@@ -16,11 +16,11 @@ Especially to demonstrate voice controllability.
 
 - Voice recognition in Android software requires an internet connection to interact with the Google voice recognition engine.
 
-![program](img_presentation/araba_program.png)
+<img src="./img_presentation/araba_program.png" width="75%" height="100%" border: 5px solid #555 >
 
 - With the designed electronic control card, control was carried out using voice commands along with the car's joystick. This structure enables alternative control methods without damaging the device's original circuits.
 
-![disbled-car](img_presentation/IMG_20140523_091438.jpg)
+<img src="./img_presentation/IMG_20140523_091438.jpg" width="75%" height="100%" border: 5px solid #555 >
 
 [Click for sample working video ...](https://www.youtube.com/watch?v=td3C3B1HCIA)
 
