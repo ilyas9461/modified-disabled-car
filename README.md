@@ -1,36 +1,34 @@
 
-## **Sesle Kontrol Edilebilen Modifiye Edilmiş Engelli Arabası**
+## **Voice Controlled Modified Disabled Car**
 
-### Amaç :
+### Purpose of the Project :
 
-Elimizde bulunan joyistik kontrollü engelli arabasının farklı kontrol biçimlerinin araştırılması ve uygulanması.
+Research and application of different control styles of the joystick controlled disabled car we have.
 
-Özellikle de sesle kontrol edilebilirliğinin ortaya konulması.
+Especially to demonstrate voice controllability.
 
-### **Yöntem** :
-![yontem](foto_sunu/yontem_blok_sema.png)
+### **Method** :
+![Method](foto_sunu/yontem_blok_sema.png)
 
-- Kullanıcının vereceği ses komutlarının algılanıp tanımlanması için Android işletim sistemi  yüklü bir cep telefonu  haberleşme için de cep telefonunun bluetooth modülü kullanılmıştır.
+-An application written in the Android operating system was used to detect and identify the voice commands given by the user. This application recognizes voice commands and sends the necessary commands to the electronic circuit via Bluetooth. The joystick was simulated on the electronic circuit and thus the car was steered.
 
-- Cep telefonuna yazılan programla da sesli veya butonlara basılarak verilen komutlar algınmış ve araba kontrol edilmiştir.
+- With the program written on the mobile phone, the commands given by voice or by pressing the buttons were detected and the car was controlled.
 
-- Yazılımda ses tanıma işlemi Google ses tanıma motoru ile gerçekleştiği için internet bağlantısına ihtiyaç vardır.
+- Voice recognition in Android software requires an internet connection to interact with the Google voice recognition engine.
 
 ![program](foto_sunu/araba_program.png)
 
-- Elektronik ses tanıma kartları kullanılarak cep telefonu ve internet bağlantı ihtiyacı ortadan kaldırılabilir.
-- Tasarlanan elektronik kontrol kartı ile arabanın joyistiği ile beraber sesli komutlarla kontrol işlemi gerçekleştirilmiştir.  Bu yapıyla da arabanın kendi orijinal devrelerine zarar verilmeden alternatif kontrol yöntemlerine olanak sağlanmıştır.
+- With the designed electronic control card, control was carried out using voice commands along with the car's joystick. This structure enables alternative control methods without damaging the device's original circuits.
 
-![araba](foto_sunu/IMG_20140523_091438.jpg)
+![disbled-car](foto_sunu/IMG_20140523_091438.jpg)
 
-[Örnek çalışma videosu için tıklayın ...](https://www.youtube.com/watch?v=td3C3B1HCIA)
+[Click for sample working video ...](https://www.youtube.com/watch?v=td3C3B1HCIA)
 
-**Kullanılan Teknolojiler :**
+**Used Technologies :**
 
-1. Mikrodenetleyiciler CCS PIC C (PIC24F)
-2. Bluetooth haberleşme.
-3. PWM sinyaller.
-4. Google ses tanıma.
-5. Android Programlama 
+1. Microcontrollers, CCS PIC C (PIC24F)
+2. Bluetooth communication.
+3. PWM and motor controller.
+4. Google Speech Recognition.
+5. Android App programming
 
-Not : Sadece elektronik devre paylaşılmıştır.
